@@ -1,0 +1,186 @@
+Size of ciphertext is (4 + K)*ciphertextlenength
+
+single(K=2), not reduce : length of ciphertext is 19, size of ciphertext is (4+2)*19 = 114
+single(K=3), not reduce : length of ciphertext is 99, size of ciphertext is 
+single(K=4), not reduce : length of ciphertext is 451, size of ciphertext is 
+single(K=5), not reduce : length of ciphertext is 1947, size of ciphertext is 
+single(K=6), not reduce : length of ciphertext is 7379, size of ciphertext is 
+single(K=7), not reduce : length of ciphertext is 30335, size of ciphertext is (4+7)*30335 = 333685 (325KB)
+
+single(K=2), reduce : length of ciphertext is 19 (#dup=0), size of ciphertext is 
+single(K=3), reduce : length of ciphertext is 94 (#dup=0), size of ciphertext is 
+single(K=4), reduce : length of ciphertext is 318 (#dup=9), size of ciphertext is 
+single(K=5), reduce : length of ciphertext is 1403 (#dup=42), size of ciphertext is 
+single(K=6), reduce : length of ciphertext is 3885 (#dup=107), size of ciphertext is 
+single(K=7), reduce : length of ciphertext is 14847 (#dup=531), size of ciphertext is  (4+7)*14847 = 163317 (160KB)
+
+multi(K=2+2), not reduce : length of ciphertext is 719, size of ciphertext is 
+multi(K=3+2), not reduce : length of ciphertext is 2399, size of ciphertext is 
+multi(K=3+3), not reduce : length of ciphertext is 12799, size of ciphertext is 
+multi(K=3+4), not reduce : length of ciphertext is 42799, size of ciphertext is (4+7)*42799 = 470789 (460KB)
+
+multi(K=2+2), reduce : length of ciphertext is 643 (#dup=8), size of ciphertext is 
+multi(K=3+2), reduce : length of ciphertext is 1755 (#dup=58), size of ciphertext is 
+multi(K=3+3), reduce : length of ciphertext is 7002 (#dup=282), size of ciphertext is 
+multi(K=3+4), reduce : length of ciphertext is 22114 (#dup=1276), size of ciphertext is (4+7)*22114 = 243254 (237KB) 
+
++ GenKey 속도, Decrypt 속도
++ Multi/single poly reduce전/후 encrypt 속도
+
+
+
+
+
+
+
+
+====================================================================
+05.23 CSHL
+====================================================================
+
+Size of ciphertext is (4 + K)*ciphertextlenength
+REDUCE : reduce_dim, reduce_neig, reduce_dup
+reduce_neig : 거리가 2 이하인 정점들이 곱해져있을 때 제거
+reduce_dup : 겹치는 항 제거
+
+
+
+1. not reduce : 
+(K,     length of ciphertext(# terms), size of ciphertext(byte), speed of encryption(ms)) : 1000회 반복, - : 조금 반복
+(4,           469,        3752,              1.69                       )
+(5,          1881,       16929,              7.68                       )
+(6,          7520,       75200,              53.46                      )
+
+
+3. multi, not reduce : 
+(K1+K2, length of ciphertext(#terms), size of ciphertext(byte), speed of encryption(ms))
+(2+2,        603,         2412,             0.19                        ) -
+(2+3,       2415,        21735,             0.45                        ) -
+(3+3,      12354,       123540,             1.73                        ) -
+
+
+(4+3,      50919,       560109,             5.62(0.005s)                ) -
+
+koblitz 속도는 6차보다 느림, muptiploy의 속도는 더 빠름 항수는 lower bound만큼의 충분한 개수는 나옴
+
+
+2. reduce : 
+(K,     length of ciphertext(# terms), size of ciphertext(byte), speed of encryption(ms)) : 
+(2,            19,         14,               0.14                       ) -
+(3,           104,        728,               0.93                       )
+(4,           381,       3048,               3.72                       )
+(5,          1343,      12087,              23.46                       )
+(6,          4508,      45080,             151.05                       )
+
+
+3. multi, not reduce : 
+(K1+K2, length of ciphertext(#terms), size of ciphertext(byte), speed of encryption(ms))
+(2+2,        603,         2412,             0.19                        ) -
+(2+3,       2415,        21735,             0.45                        ) -
+(3+3,      12354,       123540,             1.73                        ) -
+(4+3,      50919,       560109,             5.62(0.005s)                ) -
+
+
+2. reduce : 
+(K,     length of ciphertext(# terms), size of ciphertext(byte), speed of encryption(ms)) : 
+(2,            19,         14,               0.14                       ) -
+(3,           104,        728,               0.93                       )
+(4,           381,       3048,               3.72                       )
+(5,          1343,      12087,              23.46                       )
+(6,          4508,      45080,             151.05                       )
+
+ne를 증감했을때의 변화를 설명 -> #define NE 매크로 상수로 변경해야할듯
+
+4. multi, reduce : 
+(K1+K2, length of ciphertext(#terms), size of ciphertext(byte), speed of encryption(ms))
+(2+2,        523,                       4184,                3.20                     ) -
+(3+2,       1769,                      15921,               19.96                     ) - 
+(3+3,       8122,                      81220,              301.79                     ) -
+
+(4+3,      29203,                                           178.52                     ) - // 시간 설명
+(4+3,      27330,                     300630,             3097.49(3.1s)               ) - // #sum=1873
+
+dup -> sum 표현 변경(5.23)
+
+--------------------------------------------------------------------
+
+GenKey : single, multi poly간에 동일함 : 10000회 반복 측정
+2.36ms
+2.29ms
+
+--------------------------------------------------------------------
+
+Decrypt : 10000회 반복 측정
+(K,      speed of decryption(ms)) : 
+(K1+K2,  speed of decryption(ms)) : 
+
+1. singlepoly not reduce : 
+( 3,        0.010   )
+( 4,        0.011   )
+( 5,        0.050   )
+( 6,        0.212   )
+( 7,        0.952   )
+
+3. multipoly not reduce : 
+( 2+1,       0.002  ) 
+( 2+2,       0.017  ) 
+( 3+2,       0.065  ) 
+( 3+3,       0.392  ) 
+( 4+3,       1.729  ) 
+
+2. reduce : 
+( 3,        0.00    )
+( 4,        0.010   )
+( 5,        0.042   )
+( 6,        0.142   )
+( 7,        0.558   )
+
+4. reduce : 
+( 2+1,       0.002  )
+( 2+2,       0.016  )
+( 3+2,       0.051  )
+( 3+3,       0.233  )
+( 4+3,       0.942  ) 
+
+
+reduce는 not reduce 보다 항의 개수가 적으므로 decrypt속도 good (1/2정도)
+====================================================================
+
+5.23 회의 수정사항
+[구현]
+|V|, ne, K에 따른 reduction의 비율
+term indexing (DB), lexical ordering 으로 7차 encryption 속도 개선할 수 있을듯. -> 이걸 하면 poly_shuffle 도 필요 없음
+dup -> sum 표현 변경
+ne를 증감했을때의 (reduction?) 변화를 설명 -> #define NE 매크로 상수로 변경해야할듯
+toy example : ne, |V|, K 줄여서 reduction tex 쓸 수 있게 
+
+
+[논문]
+\tild{V}, V 변경
+Definition 2 없애기
+for some k 없애기
+Definition 4에서 A=PDS 부분 없애기
+Fig2 밑에 some->any로 변경
+Definition 6. 
+koblitz p29에서 invariant definition 가져오기?
+invariant polynomial g(v1 .. v4) = g(sig(v1) .. sig(v4)) 계수를 같은 값으로 설정하므로 순서가 어떻게 바뀌든 상관 없음
+
+
+a1 - b1 - c1 - d1
+
+a2 - b2 - c2 - d2
+
+a3 - b3 - c3 - d3
+
+a4 - b4 - c4 - d4
+
+
+
+
+a1 - b1 - c1 - d1
+
+a2 - b2 - c2 - d2
+
+a3 - b3 - c3 - d3
+
+a4 - b4 - c4 - d4
