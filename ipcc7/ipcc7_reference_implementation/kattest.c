@@ -20,9 +20,12 @@
 #include "rng.h"
 #include <time.h>
 
+#define KAT_SUCCESS          0
+#define KAT_FILE_OPEN_ERROR -1
+
 
 int len(invpoly *ct);
-void kat_create(invpoly *ct);
+int kat_create(invpoly *ct, char *s);
 
 int crypto_encrypt_keypair(uint8_t (*pk)[2], uint8_t *sk) {
 
@@ -110,40 +113,42 @@ int main() {
 
 	crypto_decrypt(recovered, &ct, sk);
 
-	kat_create(&ct);
+	kat_create(&ct, "ct = ");
 
     return 0;
 }
 
 #include <stdio.h>
-#define convert_bigendian_tobytes(x, y) \
-	x[0] = (char)(y>>24)&0xff; \
-	x[1] = (char)(y>>16)&0xff; \
-	x[2] = (char)(y>>8)&0xff; \
-	x[3] = (char)y&0xff;
 
-void kat_create(invpoly *ct) {
+int kat_create(invpoly *ct, char *s) {
+
+	FILE *fp_rsp;
+	if ( (fp_rsp = fopen("pqckat_n.rsp","w")) == NULL ) {
+		printf("Couldn't open <pqckat_n.rsp> for write\n");
+		return KAT_FILE_OPEN_ERROR;
+	}
+	fprintf(fp_rsp, "%s", s);
 
 	int i, j;
 	char coeffs[32/8];
-	FILE* fp = fopen("pqckat_n.rsp","w"); 
 
 	for (i=0; i<TERM; i++) {
 		if ( !ct->d[i].coeffs ) break;
 		memcpy(coeffs, &ct->d[i].coeffs, 4);
 
 		for (j=0; j<4; j++)
-			fputc(coeffs[j], fp); 
+			fprintf(fp_rsp, "%02X", coeffs[i]);
 
 		for (j=0; j<K; j++) {
 			if ( !ct->d[i].v[j] )
 				break;
-				
-			fputc(ct->d[i].v[j], fp); 
+			fprintf(fp_rsp, "%02X", ct->d[i].v[j]);
 		}
 	}
-	fclose(fp);
+	fclose(fp_rsp);
+	return KAT_SUCCESS;
 }
+
 
 int len(invpoly *ct) {
 
