@@ -1,6 +1,6 @@
 # ipcc
 
-**Comming soon**
+**Coming soon**
 - req, rsp file for integer plaintext
 
 This project manages the IPCC's whitepaper and code. It is currently participating in KpqC (https://www.kpqc.or.kr/competition.html). <br>
