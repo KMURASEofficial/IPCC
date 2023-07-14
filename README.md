@@ -1,7 +1,8 @@
 # ipcc
 
 **Coming soon**
-- opt(AVX2)
+- Attacker's key search time complexity using backtracking at a specific graph size
+- opt(lexical ordering, hashing, bitwise-operation, avx2)
 
 This project manages the IPCC's whitepaper and code. It is currently participating in KpqC (https://www.kpqc.or.kr/competition.html). <br>
 
