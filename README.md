@@ -1,7 +1,7 @@
 # ipcc
 
 **Coming soon**
-- req, rsp file for integer plaintext
+- opt(AVX2)
 
 This project manages the IPCC's whitepaper and code. It is currently participating in KpqC (https://www.kpqc.or.kr/competition.html). <br>
 
@@ -32,9 +32,9 @@ $ make
 This produces the executables
 ```
 pke
-kettest
+pqc_genkat_pke
 ```
 The parameters of the cryptosystem can be adjusted in "params.h" file. <br>
 The executable file `pke` can go through the public key encryption process, <br>
-The resulting `pqckat_n.rsp` from the `kattest` executable can be compared to the `pqckat_n.rsp` file in the `ipcc7/kat/` directory. <br>
+The resulting `pqckat_n.rsp` from the `pqc_genkat_pke` executable can be compared to the `pqckat_n.rsp` file in the `ipcc7/kat/` directory. <br>
 **The ciphertext for the integer plaintext `4410` is in the rsp file.**
