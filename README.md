@@ -1,6 +1,7 @@
 # ipcc
 
 **Coming soon**
+- Version with openssl dependency removed (random number generation)
 - Attacker's key search time complexity using backtracking at a specific graph size
 - opt(lexical ordering, hashing, bitwise-operation, avx2)
 
