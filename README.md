@@ -6,13 +6,13 @@
 - Attacker's key search time complexity using backtracking at a specific graph size
 - opt(lexical ordering, hashing, bitwise-operation, avx2)
 
-This project manages the IPCC's whitepaper and code. It is currently participating in KpqC (https://www.kpqc.or.kr/competition.html). <br>
+This project manages the IPCC's whitepaper and code. It is currently participating in KpqC Competition (https://www.kpqc.or.kr/competition.html). <br>
 
 **IPCC (first version)**
 -------------------------------------------------------
 Our first IPCC algorithm is a practical implementation of the Perfect Code Cryptosystem, which is based on graph theory. It is based on the version 2 of the Koblitz algorithm. <br>
 
-**IPCC7 (second version)**
+**IPCC7 (latest version)**
 -------------------------------------------------------
 While IPCC7 shares the design concept with the first IPCC, it addresses the vulnerabilities of the first one. The algorithm is designed to ensure that the maximum degree of the ciphertext polynomial is 7, hence the number 7 in the name. This is based on version 3 of the Koblitz algorithm. <br>
 
